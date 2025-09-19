@@ -1,0 +1,45 @@
+<div class="text-analyzer-container">
+  <form [formGroup]="analysisForm" class="full-form">
+    <div class="header">
+      <h1>Text Analyzer</h1>
+      <app-toggle-switch
+        formControlName="isOnlineMode"
+        [disabled]="textAnalyzerService.isAnalyzing()"
+        onLabel="Online Mode"
+        offLabel="Offline Mode">
+      </app-toggle-switch>
+    </div>
+
+    <div class="analysis-form">
+      <app-text-area-input
+        formControlName="inputText"
+        label="Text to analyze:"
+        placeholder="Enter your text here..."
+        [rows]="4"
+        [disabled]="textAnalyzerService.isAnalyzing()">
+      </app-text-area-input>
+
+      <app-radio-group
+        formControlName="parameterType"
+        label="Analysis type:"
+        name="analysisType"
+        [options]="parameterTypeOptions()"
+        [disabled]="textAnalyzerService.isAnalyzing()">
+      </app-radio-group>
+
+      <app-action-buttons
+        [primaryLabel]="textAnalyzerService.isAnalyzing() ? 'Analyzing...' : 'Analyze Text'"
+        [primaryDisabled]="!analysisForm.valid || textAnalyzerService.isAnalyzing()"
+        (primaryAction)="onAnalyze()">
+      </app-action-buttons>
+
+      <app-error-message [message]="textAnalyzerService.error() || ''">
+      </app-error-message>
+    </div>
+  </form>
+
+  <app-analyses-results
+    [results]="analysisResults()"
+    [selectedAnalysisType]="analysisForm.get('analysisType')?.value">
+  </app-analyses-results>
+</div>

@@ -1,0 +1,26 @@
+<div class="results-section" *ngIf="results().length > 0">
+  <h2>Analysis Results</h2>
+
+  <div *ngFor="let result of results(); let i = index" class="result-card">
+    <div class="result-header">
+      <h3>Analysis #{{ results().length - i}}</h3>
+      <span class="timestamp">{{ formatTimestamp(result.timestamp) }}</span>
+    </div>
+
+    <div class="letter-counts">
+      <h4>Letter Frequencies:</h4>
+      <div class="counts-grid">
+        <div
+          *ngFor="let item of getLetterCounts(result.letterCounts)"
+          class="count-item">
+          <span class="letter">{{ item.letter }}</span>
+          <span class="count">{{ item.count }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="results().length === 0" class="no-results">
+  <p>No analysis results yet. Enter some text and click "Analyze Text" to get started!</p>
+</div>
